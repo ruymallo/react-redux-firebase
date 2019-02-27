@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LoggedInLinks from './LoggedInLinks'
+import LoggedOutLinks from './LoggedOutLinks'
+
 
 const Navbar = () => {
   return(
@@ -8,6 +10,7 @@ const Navbar = () => {
       <div className="container">
         <Link to="/" className="brand-logo" >MarioPlan</Link>
         <LoggedInLinks />
+        <LoggedOutLinks />
       </div>
     </nav>
   );
