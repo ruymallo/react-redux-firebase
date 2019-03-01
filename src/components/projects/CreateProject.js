@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import { createProject } from '../../store/actions/project';
 
-export default class CreateProject extends React.Component {
+class CreateProject extends React.Component {
   state = {
     title: '',
     content: ''
@@ -9,7 +11,8 @@ export default class CreateProject extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
+
+    this.props.createProject(this.state);
   }
 
   handleChange = event => {
@@ -46,3 +49,9 @@ export default class CreateProject extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = {
+  createProject
+}
+
+export default connect(null, mapDispatchToProps)(CreateProject);
