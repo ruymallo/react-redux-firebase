@@ -1,12 +1,14 @@
 import React from 'react';
 
-export default function ProjectSumary() {
+export default function ProjectSumary({project}) {
+  const { content, id, title } = project
+
   return (
     <div className="card z-depth-0 project-summary">
       <div className="card-content">
-        <span className="card-title">Project Title</span>
-        <p>Posted by Ruy</p>
-        <p className="grey-text">12/12/19</p>
+        <span className="card-title">{title} - {id}</span>
+        <p>{content}</p>
+        <p className="grey-text">{Date.now()}</p>
       </div>
     </div>
   );
