@@ -1,20 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
+import { reduxFirestore, getFirestore } from 'redux-firestore';
+import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
+
+import firebaseConfig from './config/firebaseConfig'
 
 import rootReducer from './store/reducers';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const thunkWithFirebaseAndFirestore = thunk.withExtraArgument(
+  { getFirebase, getFirestore }
+);
+
 const isEnvDev = process.env.NODE_ENV === 'development';
 
-const middlewares = isEnvDev ? [thunk, logger] : [thunk];
+const middlewares = isEnvDev ?
+  [thunkWithFirebaseAndFirestore, logger] :
+  [thunkWithFirebaseAndFirestore];
 
-const store = createStore(rootReducer, applyMiddleware(...middlewares));
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(...middlewares),
+    reduxFirestore(firebaseConfig),
+    reactReduxFirebase(firebaseConfig)
+  )
+);
 
 ReactDOM.render(
   <Provider store={store} >
