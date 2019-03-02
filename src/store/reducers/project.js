@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import concat from 'lodash/concat';
 
-import { CREATE_PROJECT_SUCCESS } from '../constants/actionTypes';
+import { CREATE_PROJECT_SUCCESS, CREATE_PROJECT_ERROR } from '../constants/actionTypes';
 
 const projectsInitialState = [
   { id: '1', title: 'Lorem, ipsum dolor.', content: 'Content lorem ipsum dolor sit.' },
@@ -12,6 +12,10 @@ const projectsInitialState = [
 function projects(state = projectsInitialState, action = {}) {
   if (action.type === CREATE_PROJECT_SUCCESS) {
     return concat(state, action.project);
+  }
+
+  if (action.type === CREATE_PROJECT_ERROR) {
+    console.log(action.error)
   }
   
   return state;
