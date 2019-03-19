@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+import { getAuthErrorMessage } from '../../store/selectors/auth'
 import { logIn } from '../../store/actions/auth'
 
 
@@ -24,6 +25,7 @@ class LogIn extends React.Component {
   }
   
   render() {
+    const { errorMessage } = this.props;
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white" >
@@ -41,9 +43,16 @@ class LogIn extends React.Component {
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">Login</button>
           </div>
+          <p className="red-text">{errorMessage ? errorMessage : null}</p>
         </form>
       </div>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    errorMessage: getAuthErrorMessage(state)
   }
 }
 
@@ -51,4 +60,4 @@ const mapDispatchToProps = {
   logIn
 }
 
-export default connect(null, mapDispatchToProps)(LogIn);
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
