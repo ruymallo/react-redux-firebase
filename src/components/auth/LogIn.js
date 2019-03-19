@@ -1,7 +1,10 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import { logIn } from '../../store/actions/auth'
 
-export default class LogIn extends React.Component {
+
+class LogIn extends React.Component {
   state = {
     email: '',
     password: ''
@@ -10,6 +13,7 @@ export default class LogIn extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     console.log(this.state);
+    this.props.logIn(this.state);
   }
 
   handleChange = event => {
@@ -42,3 +46,9 @@ export default class LogIn extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = {
+  logIn
+}
+
+export default connect(null, mapDispatchToProps)(LogIn);
