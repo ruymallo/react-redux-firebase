@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import isEmpty from 'lodash/isEmpty';
 import { storage } from '../../config/firebaseConfig';
 
 import { createProject } from '../../store/actions/project';
@@ -16,11 +17,16 @@ class CreateProject extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
+    const { title, content } = this.state;
     const project = { 
-      title: this.state.title,
-      content: this.state.content
-    }
+      title,
+      content
+    };
+
+    this.setState({
+      content: '',
+      title: ''
+    });
     
     this.props.createProject(project);
   }
@@ -34,7 +40,6 @@ class CreateProject extends React.Component {
 
   handleInputFileChange = event => {
     if (event.target.files[0]) {
-      window.file = event.target.files[0];
       const previewImage = URL.createObjectURL(event.target.files[0]);
       const image = event.target.files[0];
       console.log(image)
@@ -54,7 +59,6 @@ class CreateProject extends React.Component {
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
       const progress = snapshot => {
         console.log({snapshot});
-        // snapshot.on('state_changed', () => console.log('change'))
         const transfered = snapshot.bytesTransferred;
         const total = snapshot.totalBytes
         const progress = transfered * 100 / total;
@@ -84,13 +88,15 @@ class CreateProject extends React.Component {
   }
 
   render() {
+    const canCreateProject = isEmpty(this.state.content) || isEmpty(this.state.title);
+
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white" >
           <h5 className="grey-text tex-darken-3">CreateProject</h5>
           <div className="input-field">
             <label htmlFor="title">title</label>
-            <input type="text" id="title" onChange={this.handleChange} />
+            <input type="text" id="title" onChange={this.handleChange} value={this.state.title} />
           </div>
 
           <div className="input-field">
@@ -98,12 +104,13 @@ class CreateProject extends React.Component {
             <textarea
               id="content"
               className="materialize-textarea"
-              onChange={this.handleChange} >
+              onChange={this.handleChange}
+              value={this.state.content} >
             </textarea>
           </div>
 
           <div className="input-field">
-            <button className="btn pink lighten-1 z-depth-0">CreateProject</button>
+            <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">CreateProject</button>
           </div>
         </form>
         <input accept="image/*" onChange={this.handleInputFileChange} type="file"/>
@@ -117,15 +124,16 @@ class CreateProject extends React.Component {
           }
         </div>
         <div>
-        aca si
           {
             this.state.imageUrl ?
-            <img src={this.state.imageUrl} alt="uploaded"/>:
+            [
+              <p>Uploaded image</p>,
+              <img src={this.state.imageUrl} alt="uploaded"/>
+            ]:
             null
           }
         </div>
       </div>
-      
     );
   }
 }
