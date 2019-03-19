@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import LoggedInLinks from './LoggedInLinks'
 import LoggedOutLinks from './LoggedOutLinks'
 import { connect } from 'react-redux';
+import { getFirebase } from '../../store/selectors/auth'
 
 const Navbar = ({firebase}) => {
   return(
@@ -17,7 +18,7 @@ const Navbar = ({firebase}) => {
 };
 
 const mapStateToProps = state => ({
-  firebase: state.firebase
+  firebase: getFirebase(state)
 });
 
 
