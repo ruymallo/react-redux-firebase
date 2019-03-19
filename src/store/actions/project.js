@@ -12,13 +12,15 @@ const createProjectError = error => ({
   error
 });
 
-const addProjectMetadata = callback => project => {
+const addProjectMetadata = actionCreator => project => {
   const finalObject = {
     ...project,
-    createdAt: Date.now()
+    createdAt: Date.now(),
+    authorFirstName: 'FAKE_FIRST_NAME',
+    authorLastName: 'FAKE_LAST_NAME',
   };
 
-  return callback(finalObject);
+  return actionCreator(finalObject);
 };
 
 
