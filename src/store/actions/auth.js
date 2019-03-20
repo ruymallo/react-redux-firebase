@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_ERROR } from '../constants/actionTypes';
+import { LOGIN_SUCCESS, LOGIN_ERROR, SIGN_OUT_SUCCESS, SIGN_OUT_ERROR } from '../constants/actionTypes';
 
 export const logIn = credentials => {
   return (dispatch, getState, { getFirebase }) => {
@@ -22,4 +22,24 @@ const logInError = error => ({
 const logInSuccess = token => ({
   type: LOGIN_SUCCESS,
   token
+});
+
+export const signOut = () => {
+  return (dispatch, getState, {getFirebase}) => {
+    window.getState = getState;
+    const firebase = getFirebase();
+
+    firebase.auth().signOut()
+      .then(() => dispatch(signOutSuccess()))
+      .catch(error => dispatch(signOutError(error)));
+  }
+}
+
+const signOutSuccess = () => ({
+  type: SIGN_OUT_SUCCESS
+});
+
+const signOutError = error => ({
+  type: SIGN_OUT_ERROR,
+  error
 });
