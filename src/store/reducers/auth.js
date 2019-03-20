@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_ERROR } from '../constants/actionTypes';
+import { LOGIN_SUCCESS, LOGIN_ERROR, SIGN_OUT_SUCCESS, SIGN_OUT_ERROR } from '../constants/actionTypes';
 
 const initialState = {};
 
@@ -16,6 +16,15 @@ export default function auth(state = initialState, action = {}) {
       authError: action.error.message
     };
   }
+
+  if (action.type === SIGN_OUT_ERROR) {
+    console.error(action.error);
+  }
+
+  if (action.type === SIGN_OUT_SUCCESS) {
+    console.log('SIGN_OUT_SUCCESS');
+  }
+  
 
   return state;
 }
