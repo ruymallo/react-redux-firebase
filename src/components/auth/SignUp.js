@@ -1,7 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { HOME_ROUTE } from '../layout/constants';
+import { Redirect } from 'react-router-dom';
+import { isLoggedIn } from '../../store/selectors/auth';
 
 
-export default class SingUp extends React.Component {
+class SingUp extends React.Component {
   state = {
     email: '',
     password: '',
@@ -22,6 +27,8 @@ export default class SingUp extends React.Component {
   }
 
   render() {
+    const { isLoggedIn } = this.props;
+    if (isLoggedIn) return <Redirect to={HOME_ROUTE} />;
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white" >
@@ -54,3 +61,9 @@ export default class SingUp extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isLoggedIn: isLoggedIn(state)
+})
+
+export default connect(mapStateToProps)(SingUp);
