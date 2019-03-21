@@ -1,6 +1,11 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
+import { HOME_ROUTE } from '../layout/constants';
+
+import { isLoggedIn } from '../../store/selectors/auth';
 import { getAuthErrorMessage } from '../../store/selectors/auth'
 import { logIn } from '../../store/actions/auth'
 
@@ -25,7 +30,9 @@ class LogIn extends React.Component {
   }
   
   render() {
-    const { errorMessage } = this.props;
+    const { errorMessage, isLoggedIn } = this.props;
+    if (isLoggedIn) return <Redirect to={HOME_ROUTE} />;
+
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white" >
@@ -50,11 +57,10 @@ class LogIn extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    errorMessage: getAuthErrorMessage(state)
-  }
-}
+const mapStateToProps = state => ({
+  errorMessage: getAuthErrorMessage(state),
+  isLoggedIn: isLoggedIn(state)
+})
 
 const mapDispatchToProps = {
   logIn
