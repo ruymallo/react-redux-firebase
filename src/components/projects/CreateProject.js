@@ -98,19 +98,18 @@ class CreateProject extends React.Component {
   }
 
   render() {
-    const canCreateProject = isEmpty(this.state.content) || isEmpty(this.state.title);
-
     const { isLoggedIn } = this.props;
-    
-     
-    
+    const { progress, content, title } = this.state;
+
+    const canCreateProject = isEmpty(content) || isEmpty(title);
+
     if (isLoggedIn) return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white" >
           <h5 className="grey-text tex-darken-3">CreateProject</h5>
           <div className="input-field">
             <label htmlFor="title">title</label>
-            <input type="text" id="title" onChange={this.handleChange} value={this.state.title} />
+            <input type="text" id="title" onChange={this.handleChange} value={title} />
           </div>
 
           <div className="input-field">
@@ -138,7 +137,10 @@ class CreateProject extends React.Component {
         </div>
         
         <button className="btn" onClick={this.handleImageUpload}  >upload image</button>
-        <p>Loaded: {this.state.progress}%</p>
+        <p>Loaded: { progress }%</p>
+        <div className="progress">
+          <div className="determinate" style={{ width: `${progress}%` } }></div>
+        </div>
         <div>
           {
             this.state.previewImage ?
