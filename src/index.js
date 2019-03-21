@@ -24,12 +24,18 @@ const middlewares = isEnvDev ?
   [thunkWithFirebaseAndFirestore, logger] :
   [thunkWithFirebaseAndFirestore];
 
+  const reactReduxFirebaseConf = {
+    useFirestoreForProfile: true,
+    userProfile: 'users',
+    attachAuthIsReady: true
+  }
+  
 const store = createStore(
   rootReducer,
   compose(
     applyMiddleware(...middlewares),
     reduxFirestore(firebaseConfig),
-    reactReduxFirebase(firebaseConfig, { attachAuthIsReady: true })
+    reactReduxFirebase(firebaseConfig, reactReduxFirebaseConf)
   )
 );
 
