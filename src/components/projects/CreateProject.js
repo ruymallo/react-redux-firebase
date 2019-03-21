@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+
 import { storage } from '../../config/firebaseConfig';
+
+import { Redirect } from 'react-router-dom';
+import { isLoggedIn } from '../../store/selectors/auth';
+import { LOGIN_ROUTE } from '../layout/constants';
+
 
 import { createProject } from '../../store/actions/project';
 
@@ -54,27 +60,31 @@ class CreateProject extends React.Component {
     if (this.state.image) {
       
       const { image } = this.state;
-      console.log(image);
       
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
       const progress = snapshot => {
-        console.log({snapshot});
-        const transfered = snapshot.bytesTransferred;
-        const total = snapshot.totalBytes
-        const progress = transfered * 100 / total;
-        
-        this.setState({
-          progress
-        });
+        const getSnapshotPercent = () => {
+          const transfered = snapshot.bytesTransferred;
+          const total = snapshot.totalBytes
+          return Math.floor(transfered * 100 / total);
+          
+        };
 
+        this.setState({
+          progress: getSnapshotPercent()
+        });
       };
+
       const error = err => {
         console.log(err);
       };
+
       const complete = () => {
         console.log('complete', uploadTask.snapshot);
       };
+
       uploadTask.on('state_changed', progress, error, complete);
+
       uploadTask.snapshot.ref.getDownloadURL().then(url => {
         console.log(url)
         this.setState({imageUrl: url})
@@ -90,7 +100,11 @@ class CreateProject extends React.Component {
   render() {
     const canCreateProject = isEmpty(this.state.content) || isEmpty(this.state.title);
 
-    return (
+    const { isLoggedIn } = this.props;
+    
+     
+    
+    if (isLoggedIn) return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white" >
           <h5 className="grey-text tex-darken-3">CreateProject</h5>
@@ -113,8 +127,17 @@ class CreateProject extends React.Component {
             <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">CreateProject</button>
           </div>
         </form>
-        <input accept="image/*" onChange={this.handleInputFileChange} type="file"/>
-        <button onClick={this.handleImageUpload}  >upload image</button>
+        <div className="file-field input-field" >
+          <div className="btn">
+            <span>Picture</span>
+            <input accept="image/*" onChange={this.handleInputFileChange} type="file" />
+          </div>
+          <div className="file-path-wrapper">
+            <input className="file-path validate" accept="image/*" onChange={this.handleInputFileChange} type="text" />
+          </div>
+        </div>
+        
+        <button className="btn" onClick={this.handleImageUpload}  >upload image</button>
         <p>Loaded: {this.state.progress}%</p>
         <div>
           {
@@ -126,20 +149,27 @@ class CreateProject extends React.Component {
         <div>
           {
             this.state.imageUrl ?
-            [
-              <p>Uploaded image</p>,
+            <div>
+              <p>Uploaded image</p>
               <img src={this.state.imageUrl} alt="uploaded"/>
-            ]:
+            </div>
+            :
             null
           }
         </div>
       </div>
     );
+
+    return <Redirect to={LOGIN_ROUTE} />;
   }
 }
+
+const mapStateToProps = state => ({
+  isLoggedIn: isLoggedIn(state)
+});
 
 const mapDispatchToProps = {
   createProject
 }
 
-export default connect(null, mapDispatchToProps)(CreateProject);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProject);
