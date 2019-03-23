@@ -6,7 +6,7 @@ import { storage } from '../../config/firebaseConfig';
 
 import { Redirect } from 'react-router-dom';
 import { isLoggedIn } from '../../store/selectors/auth';
-import { LOGIN_ROUTE } from '../layout/constants';
+import { LOGIN_ROUTE, HOME_ROUTE } from '../layout/constants';
 
 
 import { createProject } from '../../store/actions/project';
@@ -28,13 +28,9 @@ class CreateProject extends React.Component {
       title,
       content
     };
-
-    this.setState({
-      content: '',
-      title: ''
-    });
     
     this.props.createProject(project);
+    this.props.history.push(HOME_ROUTE);
   }
 
   handleChange = event => {
@@ -105,59 +101,65 @@ class CreateProject extends React.Component {
 
     if (isLoggedIn) return (
       <div className="container">
-        <form onSubmit={this.handleSubmit} className="white" >
-          <h5 className="grey-text tex-darken-3">CreateProject</h5>
-          <div className="input-field">
-            <label htmlFor="title">title</label>
-            <input type="text" id="title" onChange={this.handleChange} value={title} />
-          </div>
-
-          <div className="input-field">
-            <label htmlFor="content">content</label>
-            <textarea
-              id="content"
-              className="materialize-textarea"
-              onChange={this.handleChange}
-              value={this.state.content} >
-            </textarea>
-          </div>
-
-          <div className="input-field">
-            <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">CreateProject</button>
-          </div>
-        </form>
-        <div className="file-field input-field" >
-          <div className="btn">
-            <span>Picture</span>
-            <input accept="image/*" onChange={this.handleInputFileChange} type="file" />
-          </div>
-          <div className="file-path-wrapper">
-            <input className="file-path validate" accept="image/*" onChange={this.handleInputFileChange} type="text" />
-          </div>
-        </div>
-        
-        <button className="btn" onClick={this.handleImageUpload}  >upload image</button>
-        <p>Loaded: { progress }%</p>
-        <div className="progress">
-          <div className="determinate" style={{ width: `${progress}%` } }></div>
-        </div>
-        <div>
-          {
-            this.state.previewImage ?
-            <img style={{ height: '100px', width: 'auto'}} onLoad={this.handlePreviewLoad} src={this.state.previewImage} alt="preview"/>:
-            null
-          }
-        </div>
-        <div>
-          {
-            this.state.imageUrl ?
-            <div>
-              <p>Uploaded image</p>
-              <img src={this.state.imageUrl} alt="uploaded"/>
+        <div className="card white">
+          <form className="card-content" onSubmit={this.handleSubmit} >
+            <h5 className="grey-text tex-darken-3">CreateProject</h5>
+            <div className="input-field">
+              <label htmlFor="title">title</label>
+              <input type="text" id="title" onChange={this.handleChange} value={title} />
             </div>
-            :
-            null
-          }
+
+            <div className="input-field">
+              <label htmlFor="content">content</label>
+              <textarea
+                id="content"
+                className="materialize-textarea"
+                onChange={this.handleChange}
+                value={this.state.content} >
+              </textarea>
+            </div>
+
+            <div className="input-field">
+              <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">CreateProject</button>
+            </div>
+          </form>
+          <div className="card-content">
+            <div className="file-field input-field" >
+              <div className="btn">
+                <span>Picture</span>
+                <input accept="image/*" onChange={this.handleInputFileChange} type="file" />
+              </div>
+              <div className="file-path-wrapper">
+                <input className="file-path validate" accept="image/*" onChange={this.handleInputFileChange} type="text" />
+              </div>
+            </div>
+          </div>
+          <div className="card-content">
+            <button className="btn" onClick={this.handleImageUpload}  >upload image</button>
+            <p>Loaded: { progress }%</p>
+            <div className="progress">
+              <div className="determinate" style={{ width: `${progress}%` } }></div>
+            </div>
+          </div>
+          <div className="card-content" >
+            {
+              this.state.previewImage ?
+              <div className="card-content" >
+                <img style={{ height: '100px', width: 'auto'}} onLoad={this.handlePreviewLoad} src={this.state.previewImage} alt="preview"/>
+              </div>
+              :
+              null
+            }
+          </div>
+            {
+              this.state.imageUrl ?
+              <div className="card-content" >
+                <p>Uploaded image</p>
+                <img src={this.state.imageUrl} alt="uploaded"/>
+              </div>
+              :
+              null
+            }
         </div>
       </div>
     );
