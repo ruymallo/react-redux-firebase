@@ -17,7 +17,7 @@ export const addDocumentToFiresore = ({
       const project = {
         title: data.title,
         content: data.content,
-        createdAt: Date.now(),
+        createdAt: new Date(),
         authorFirstName: firstName,
         authorLastName: lastName,
         authorId: getUid(state)
