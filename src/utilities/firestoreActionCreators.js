@@ -1,4 +1,5 @@
 import { loadingRequestStart, loadingRequestEnd } from '../store/actions/loadingRequestStatus';
+import { getUid, getProfile } from '../store/selectors/auth';
 
 export const addDocumentToFiresore = ({
   collection, requestId, successCallback, errorCallback
@@ -8,9 +9,21 @@ export const addDocumentToFiresore = ({
       dispatch(loadingRequestStart(requestId));
 
       const firestore = getFirestore();
-      firestore.collection(collection).add({
-      ...data
-      })
+
+      const state = getState();
+
+      const { firstName, lastName } = getProfile(state);
+      
+      const project = {
+        title: data.title,
+        content: data.content,
+        createdAt: Date.now(),
+        authorFirstName: firstName,
+        authorLastName: lastName,
+        authorId: getUid(state)
+      };
+
+      firestore.collection(collection).add(project)
       .then(() => {
         dispatch(loadingRequestEnd(requestId));
 
