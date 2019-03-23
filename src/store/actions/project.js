@@ -12,23 +12,12 @@ const createProjectError = error => ({
   error
 });
 
-const addProjectMetadata = actionCreator => project => {
-  const finalObject = {
-    ...project,
-    createdAt: Date.now(),
-    authorFirstName: 'FAKE_FIRST_NAME',
-    authorLastName: 'FAKE_LAST_NAME',
-  };
 
-  return actionCreator(finalObject);
-};
-
-
-const addProjectToFirestore = addProjectMetadata(addDocumentToFiresore({
+const addProjectToFirestore = addDocumentToFiresore({
   collection: 'projects',
   requestId: CREATE_PROJECT_ID,
   successCallback: createProjectSuccess,
   errorCallback: createProjectError
-}));
+});
 
-export const createProject = addProjectToFirestore
+export const createProject = addProjectToFirestore;
