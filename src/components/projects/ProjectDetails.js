@@ -2,11 +2,13 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
+import moment from 'moment';
 
 import { getFirestoreProjectById } from '../../store/selectors/project'
 
 function ProjectDetails({ project }) {
-  const formatDate = date => new Date(date).toUTCString();
+  const formatDate = date => moment(date.toDate()).calendar();
+  
 
   if(project) {
     const {
@@ -25,7 +27,7 @@ function ProjectDetails({ project }) {
             <p>{content}</p>
           </div>
           <div className="card-action grey lighten-4 grey-text">
-            <div>posted by {authorFirstName} - {authorLastName}</div>
+            <div>posted by {authorFirstName} {authorLastName}</div>
             <div>{formatDate(createdAt)}</div>
           </div>
         </div>
