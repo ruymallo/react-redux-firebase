@@ -7,4 +7,5 @@ const defaultProjects = [];
 
 export const getFirestoreProjects = getOr(defaultProjects, 'firestore.ordered.projects');
 
-export const getFirestoreProjectById = (state, id) => getOr(null, `firestore.data.projects.${id}`)(state);
+export const getFirestoreProjectById = (state, id) =>
+  getOr(null, `firestore.data.projects.${id}`)(state);
