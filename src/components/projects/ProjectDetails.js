@@ -8,7 +8,6 @@ import { getFirestoreProjectById } from '../../store/selectors/project'
 
 function ProjectDetails({ project }) {
   const formatDate = date => moment(date.toDate()).calendar();
-  
 
   if(project) {
     const {
@@ -35,7 +34,7 @@ function ProjectDetails({ project }) {
     );
   }
 
-  return <p style={{ textAlign: 'center'}}>loading...</p>;
+  return <p className="center" >loading...</p>;
 }
 
 const mapStateToProps = (state, ownProps) => ({
