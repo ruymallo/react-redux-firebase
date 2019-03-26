@@ -38,7 +38,7 @@ function ProjectDetails({ project }) {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  project: getFirestoreProjectById(state, ownProps.match.params.id)
+  project: getFirestoreProjectById(state, ownProps)
 });
 
 export default compose(
