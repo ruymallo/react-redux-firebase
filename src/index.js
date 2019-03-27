@@ -33,9 +33,9 @@ const middlewares = isEnvDev ?
 const store = createStore(
   rootReducer,
   compose(
-    applyMiddleware(...middlewares),
     reduxFirestore(firebaseConfig),
-    reactReduxFirebase(firebaseConfig, reactReduxFirebaseConf)
+    reactReduxFirebase(firebaseConfig, reactReduxFirebaseConf),
+    applyMiddleware(...middlewares),
   )
 );
 
