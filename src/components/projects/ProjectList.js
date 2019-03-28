@@ -5,14 +5,16 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { Link } from 'react-router-dom';
 
 import { getFirestoreProjects } from '../../store/selectors/project'
+import { setProjectToDisplay } from '../../store/actions/project';
 
 import ProjectSumary from './ProjectSumary'
 
-function ProjectList({ projects }) {
+function ProjectList({ projects, setProjectToDisplay }) {
   
   const projectSummaries = projects.map(project => {
+    const handleProjectLinkClick = () => setProjectToDisplay(project);
     return (
-      <Link key={project.id} to={`/project/${project.id}`}>
+      <Link onClick={handleProjectLinkClick} key={project.id} to={`/project/${project.id}`}>
         <ProjectSumary project={project} />
       </Link>
     );
@@ -30,7 +32,11 @@ const mapStateToProps = state => ({
   projects: getFirestoreProjects(state)
 });
 
+const mapDispatchToProps = {
+  setProjectToDisplay
+};
+
 export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([{ collection: 'projects' }])
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([{ collection: 'projects', orderBy: ['createdAt', 'desc'] }])
 )(ProjectList);
