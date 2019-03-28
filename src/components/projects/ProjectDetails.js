@@ -1,22 +1,34 @@
 import React from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import isEmpty from 'lodash/isEmpty'
 import moment from 'moment';
 
-import { getFirestoreProjectById } from '../../store/selectors/project'
+import { getProjectToDisplay, getIdParam } from '../../store/selectors/project'
+import { fetchFirestoreProjectById, setProjectToDisplay } from '../../store/actions/project';
 
-function ProjectDetails({ project }) {
-  const formatDate = date => moment(date.toDate()).calendar();
+class ProjectDetails extends React.Component {
+  componentDidMount() {
+    if(isEmpty(this.props.project)) {
+      this.props.fetchFirestoreProjectById(getIdParam(this.props));
+    }
+  }
 
-  if(project) {
+  componentWillUnmount() {
+    this.props.setProjectToDisplay({})
+  }
+  
+  render() {
+    const formatDate = date => moment(date.toDate()).calendar();
+
+    if (isEmpty(this.props.project)) return <p className="center" >loading...</p>;
+
     const {
       authorFirstName,
       authorLastName,
       content,
       createdAt,
       title
-    } = project;
+    } = this.props.project;
 
     return (
       <div className="container section project-ProjectDetails">
@@ -33,15 +45,15 @@ function ProjectDetails({ project }) {
       </div>
     );
   }
-
-  return <p className="center" >loading...</p>;
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  project: getFirestoreProjectById(state, ownProps)
+const mapStateToProps = (state) => ({
+  project: getProjectToDisplay(state)
 });
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([{ collection: 'projects' }])
-)(ProjectDetails);
+const mapDispatchToProps = {
+  fetchFirestoreProjectById,
+  setProjectToDisplay
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
