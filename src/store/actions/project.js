@@ -20,9 +20,18 @@ const addProjectToFirestore = addDocumentToFiresore({
   errorCallback: createProjectError
 });
 
-export const projectToDisplay = projectToDisplay => ({
+export const setProjectToDisplay = projectToDisplay => ({
   type: SET__PROJECT_TO_DISPLAY,
   projectToDisplay
 });
+
+export const fetchFirestoreProjectById = id => (dispatch, getState, { getFirestore }) =>{
+  const firestore = getFirestore();
+
+  firestore.collection('projects')
+    .doc(id).get()
+    .then(project => dispatch(setProjectToDisplay(project.data())))
+}
+
 
 export const createProject = addProjectToFirestore;
