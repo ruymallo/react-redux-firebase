@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch  } from 'react-router-dom';
+import { Router, Route, Switch  } from 'react-router-dom';
+import { createBrowserHistory } from 'history'
 
 import Navbar from './components/layout/Navbar';
 import Dashboard from './components/dashboard/Dashboard';
@@ -8,10 +9,12 @@ import LogIn from './components/auth/LogIn';
 import SignUp from './components/auth/SignUp';
 import CreateProject from './components/projects/CreateProject';
 
+const history = createBrowserHistory();
+
 class App extends React.Component {
   render() {
     return (
-      <BrowserRouter>
+      <Router history={history} >
         <div className="App">
           <Navbar />
           <Switch>
@@ -22,9 +25,9 @@ class App extends React.Component {
             <Route path="/create" component={CreateProject} />
           </Switch>
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
 
-export default App;
+export { App as default, history };

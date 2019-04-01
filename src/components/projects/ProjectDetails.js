@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import moment from 'moment';
 
 import { getProjectToDisplay, getIdParam } from '../../store/selectors/project'
-import { fetchFirestoreProjectById, setProjectToDisplay } from '../../store/actions/project';
+import { fetchFirestoreProjectById, setProjectToDisplay, deleteFirebaseProject } from '../../store/actions/project';
 
 class ProjectDetails extends React.Component {
   componentDidMount() {
@@ -19,6 +19,8 @@ class ProjectDetails extends React.Component {
   
   render() {
     const formatDate = date => moment(date.toDate()).calendar();
+    const handleProjectDelete = () => 
+      this.props.deleteFirebaseProject(getIdParam(this.props));
 
     if (isEmpty(this.props.project)) return <p className="center" >loading...</p>;
 
@@ -40,6 +42,11 @@ class ProjectDetails extends React.Component {
           <div className="card-action grey lighten-4 grey-text">
             <div>posted by {authorFirstName} {authorLastName}</div>
             <div>{formatDate(createdAt)}</div>
+            <button
+              className="btn waves-effect waves-light red darken-1"
+              onClick={handleProjectDelete} >
+                Delete
+            </button>
           </div>
         </div>
       </div>
@@ -53,7 +60,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   fetchFirestoreProjectById,
-  setProjectToDisplay
+  setProjectToDisplay,
+  deleteFirebaseProject
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
