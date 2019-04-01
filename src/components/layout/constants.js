@@ -1,6 +1,6 @@
 export const HOME_ROUTE = '/';
 
-export const CREATE_ROUTE = 'create';
+export const CREATE_ROUTE = '/create';
 
 export const SIGNUP_ROUTE = '/signup';
 
