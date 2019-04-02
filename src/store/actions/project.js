@@ -1,4 +1,4 @@
-import { addDocumentToFiresore } from '../../utilities/firestoreActionCreators';
+import { addDocumentToFirestore } from '../../utilities/firestoreActionCreators';
 import { CREATE_PROJECT_SUCCESS, CREATE_PROJECT_ERROR, SET__PROJECT_TO_DISPLAY } from '../constants/actionTypes';
 import { CREATE_PROJECT_ID } from '../constants/requestsIds';
 import { history } from '../../App';
@@ -15,7 +15,7 @@ const createProjectError = error => ({
 });
 
 
-const addProjectToFirestore = addDocumentToFiresore({
+const addProjectToFirestore = addDocumentToFirestore({
   collection: 'projects',
   requestId: CREATE_PROJECT_ID,
   successCallback: createProjectSuccess,
@@ -47,5 +47,6 @@ export const deleteFirebaseProject = projectId => (dispatch, getState, { getFire
     });
 }
 
-
-export const createProject = addProjectToFirestore;
+export const createProject = project => (dispatch, getState, { getFirestore }) => {
+  dispatch(addProjectToFirestore(project));
+};
