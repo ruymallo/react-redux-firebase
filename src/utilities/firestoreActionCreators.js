@@ -1,7 +1,7 @@
 import { loadingRequestStart, loadingRequestEnd } from '../store/actions/loadingRequestStatus';
 import { getUid, getProfile } from '../store/selectors/auth';
 
-export const addDocumentToFiresore = ({
+export const addDocumentToFirestore = ({
   collection, requestId, successCallback, errorCallback
 }) => {
   return data => {
@@ -17,6 +17,7 @@ export const addDocumentToFiresore = ({
       const project = {
         title: data.title,
         content: data.content,
+        imageUrl: data.imageUrl,
         createdAt: new Date(),
         authorFirstName: firstName,
         authorLastName: lastName,
