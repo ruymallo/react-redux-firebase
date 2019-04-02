@@ -23,10 +23,11 @@ class CreateProject extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { title, content } = this.state;
+    const { title, content, imageUrl } = this.state;
     const project = { 
       title,
-      content
+      content,
+      imageUrl
     };
     
     this.props.createProject(project);
@@ -118,12 +119,6 @@ class CreateProject extends React.Component {
                 value={this.state.content} >
               </textarea>
             </div>
-
-            <div className="input-field">
-              <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">CreateProject</button>
-            </div>
-          </form>
-          <div className="card-content">
             <div className="file-field input-field" >
               <div className="btn">
                 <span>Picture</span>
@@ -133,7 +128,11 @@ class CreateProject extends React.Component {
                 <input className="file-path validate" accept="image/*" onChange={this.handleInputFileChange} type="text" />
               </div>
             </div>
-          </div>
+            <div className="input-field">
+              <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">CreateProject</button>
+            </div>
+          </form>
+          
           <div className="card-content">
             <button className="btn" onClick={this.handleImageUpload}  >upload image</button>
             <p>Loaded: { progress }%</p>
