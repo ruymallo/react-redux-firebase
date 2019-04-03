@@ -1,7 +1,8 @@
 import { addDocumentToFirestore } from '../../utilities/firestoreActionCreators';
 import {
-  CREATE_PROJECT_SUCCESS,
   CREATE_PROJECT_ERROR,
+  CREATE_PROJECT_SUCCESS,
+  SET_PROJECT_TO_CREATE_DATA,
   SET_PROJECT_TO_DISPLAY
 } from '../constants/actionTypes';
 import { CREATE_PROJECT_ID } from '../constants/requestsIds';
@@ -58,3 +59,9 @@ export const deleteFirebaseProject = projectId => (dispatch, getState, { getFire
 export const createProject = project => (dispatch, getState, { getFirestore }) => {
   dispatch(addProjectToFirestore(project));
 };
+
+export const setProjectToCreateData = (key, value) => ({
+  type: SET_PROJECT_TO_CREATE_DATA,
+  key,
+  value
+});
