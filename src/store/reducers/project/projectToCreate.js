@@ -17,7 +17,7 @@ export default function projectToCreate(state = projectToCreateInitialState, act
       return {
         ...state,
         [path[0]]: {
-          ...state.path[0],
+          ...state[path[0]],
           [path[1]]: action.value
         }
       };
