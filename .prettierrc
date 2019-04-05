@@ -7,8 +7,7 @@
         "*.js"
       ],
       "options": {
-        "jsxBracketSameLine": false,
-        "noSemi": true,
+        "jsxBracketSameLine": true,
         "printWidth": 100,
         "requirePragma": false,
         "semi": true,
