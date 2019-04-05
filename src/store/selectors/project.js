@@ -11,6 +11,6 @@ export const getIdParam = get('match.params.id');
 
 export const getFirestoreProjectById = (state, props) => {
   return get(`firestore.data.projects.${getIdParam(props)}`)(state);
-}
+};
 
 export const getProjectToDisplay = get('project.projectToDisplay');

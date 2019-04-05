@@ -1,6 +1,6 @@
 import React from 'react';
-import { Router, Route, Switch  } from 'react-router-dom';
-import { createBrowserHistory } from 'history'
+import { Router, Route, Switch } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 import Navbar from './components/layout/Navbar';
 import Dashboard from './components/dashboard/Dashboard';
@@ -14,7 +14,7 @@ const history = createBrowserHistory();
 class App extends React.Component {
   render() {
     return (
-      <Router history={history} >
+      <Router history={history}>
         <div className="App">
           <Navbar />
           <Switch>
