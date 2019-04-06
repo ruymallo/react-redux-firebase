@@ -1,4 +1,4 @@
-import { SET_PROJECT_TO_CREATE_DATA } from '../../constants/actionTypes';
+import { RESET_PROJECT_TO_CREATE, SET_PROJECT_TO_CREATE_DATA } from '../../constants/actionTypes';
 
 const projectToCreateInitialState = {
   title: '',
@@ -39,6 +39,10 @@ export default function projectToCreate(state = projectToCreateInitialState, act
       default:
         return state;
     }
+  }
+
+  if (action.type === RESET_PROJECT_TO_CREATE) {
+    return projectToCreateInitialState;
   }
 
   return state;
