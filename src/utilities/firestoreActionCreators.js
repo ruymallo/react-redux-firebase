@@ -1,5 +1,6 @@
 import { loadingRequestStart, loadingRequestEnd } from '../store/actions/loadingRequestStatus';
 import { getUid, getProfile } from '../store/selectors/auth';
+import { getProjectToCreateData } from '../store/selectors/project';
 
 export const addDocumentToFirestore = ({
   collection,
@@ -7,7 +8,7 @@ export const addDocumentToFirestore = ({
   successCallback,
   errorCallback
 }) => {
-  return data => {
+  return project => {
     return (dispatch, getState, { getFirestore, getFirebase }) => {
       dispatch(loadingRequestStart(requestId));
 
@@ -17,10 +18,13 @@ export const addDocumentToFirestore = ({
 
       const { firstName, lastName } = getProfile(state);
 
-      const project = {
-        title: data.title,
-        content: data.content,
-        imageUrl: data.imageUrl,
+      const newProject = {
+        title: getProjectToCreateData(state, 'title'),
+        content: {
+          body: getProjectToCreateData(state, 'content.body'),
+          lead: getProjectToCreateData(state, 'content.lead')
+        },
+        imageUrl: project.imageUrl,
         createdAt: new Date(),
         authorFirstName: firstName,
         authorLastName: lastName,
@@ -29,11 +33,11 @@ export const addDocumentToFirestore = ({
 
       firestore
         .collection(collection)
-        .add(project)
+        .add(newProject)
         .then(() => {
           dispatch(loadingRequestEnd(requestId));
 
-          dispatch(successCallback(data));
+          dispatch(successCallback(newProject));
         })
         .catch(error => {
           dispatch(loadingRequestEnd(requestId));

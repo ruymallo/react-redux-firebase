@@ -16,7 +16,7 @@ function ProjectSumary({ project, deleteFirebaseProject }) {
     <div className="card z-depth-0 project-summary">
       <div className="card-content">
         <span className="card-title">{title}</span>
-        <p>{content}</p>
+        <p>{content.lead}</p>
         <p className="grey-text">{moment(createdAt.toDate()).calendar()}</p>
       </div>
       <button className="btn waves-effect waves-light red darken-1" onClick={handleDelete}>

@@ -53,7 +53,8 @@ const ProjectDetails = props => {
         <div className="card z-depth-0">
           <div className="card-content">
             <span className="card-title">{title}</span>
-            <p>{content}</p>
+            <p>{content.lead}</p>
+            <p>{content.body}</p>
             {imageUrl ? <img src={imageUrl} alt="intro" /> : null}
           </div>
           <div className="card-action grey lighten-4 grey-text">
