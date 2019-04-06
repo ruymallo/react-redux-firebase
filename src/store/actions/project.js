@@ -2,6 +2,7 @@ import { addDocumentToFirestore } from '../../utilities/firestoreActionCreators'
 import {
   CREATE_PROJECT_ERROR,
   CREATE_PROJECT_SUCCESS,
+  RESET_PROJECT_TO_CREATE,
   SET_PROJECT_TO_CREATE_DATA,
   SET_PROJECT_TO_DISPLAY
 } from '../constants/actionTypes';
@@ -64,4 +65,8 @@ export const setProjectToCreateData = (key, value) => ({
   type: SET_PROJECT_TO_CREATE_DATA,
   key,
   value
+});
+
+export const resetProjectToCreate = () => ({
+  type: RESET_PROJECT_TO_CREATE
 });
