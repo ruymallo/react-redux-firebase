@@ -10,10 +10,14 @@ import { CREATE_PROJECT_ID } from '../constants/requestsIds';
 import { history } from '../../App';
 import { HOME_ROUTE } from '../../components/layout/constants';
 
-const createProjectSuccess = project => ({
-  type: CREATE_PROJECT_SUCCESS,
-  project
-});
+const createProjectSuccess = project => dispatch => {
+  dispatch({
+    type: CREATE_PROJECT_SUCCESS,
+    project
+  });
+
+  dispatch(resetProjectToCreate());
+};
 
 const createProjectError = error => ({
   type: CREATE_PROJECT_ERROR,
