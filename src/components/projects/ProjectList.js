@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Link } from 'react-router-dom';
 
-import { getFirestoreProjects } from '../../store/selectors/project'
+import { getFirestoreProjects } from '../../store/selectors/project';
 import { setProjectToDisplay } from '../../store/actions/project';
 
-import ProjectSumary from './ProjectSumary'
+import ProjectSumary from './ProjectSumary';
 
 function ProjectList({ projects, setProjectToDisplay }) {
-  
   const projectSummaries = projects.map(project => {
     const handleProjectLinkClick = () => setProjectToDisplay(project);
     return (
@@ -20,15 +19,10 @@ function ProjectList({ projects, setProjectToDisplay }) {
     );
   });
 
-  return (
-    <div className="project-list section" >
-      { projectSummaries }
-    </div>
-  );
+  return <div className="project-list section">{projectSummaries}</div>;
 }
 
-
-const mapStateToProps = state => ({ 
+const mapStateToProps = state => ({
   projects: getFirestoreProjects(state)
 });
 
@@ -37,6 +31,9 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   firestoreConnect([{ collection: 'projects', orderBy: ['createdAt', 'desc'] }])
 )(ProjectList);

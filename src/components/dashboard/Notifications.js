@@ -5,24 +5,18 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { getFirestoreOrderedNotifications } from '../../store/selectors/notifications';
 import moment from 'moment';
 
-
-
 function Notifications({ notifications }) {
-  const NotificationsList = () => notifications.map(notification =>
-    <li
-      key={notification.id}>
-      <span className="green-text">
-        {notification.user}
-      </span>
-      <span>{` ${notification.content}`}</span>
-      <div className="grey-text note-time">
-        {moment(notification.time.toDate()).fromNow()}
-      </div>
-    </li>
-  );
+  const NotificationsList = () =>
+    notifications.map(notification => (
+      <li key={notification.id}>
+        <span className="green-text">{notification.user}</span>
+        <span>{` ${notification.content}`}</span>
+        <div className="grey-text note-time">{moment(notification.time.toDate()).fromNow()}</div>
+      </li>
+    ));
 
   return (
-    <div className="section" >
+    <div className="section">
       <div className="card z-depth-0">
         <div className="card-content">
           <span className="card-title">Notifications</span>
@@ -41,7 +35,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([
-    { collection: 'notifications', orderBy: ['time', 'desc'] }
-  ])
+  firestoreConnect([{ collection: 'notifications', orderBy: ['time', 'desc'], limit: 5 }])
 )(Notifications);
