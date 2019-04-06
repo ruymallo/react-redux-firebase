@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FileInput = ({ onChange, label, id }) => {
+const FileInput = ({ label, id }) => {
   const [previewImage, setPreviewImage] = useState(null);
 
   const handleInputFileChange = event => {
@@ -19,12 +19,17 @@ const FileInput = ({ onChange, label, id }) => {
           <input id={id} accept="image/*" onChange={handleInputFileChange} type="file" />
         </div>
         <div className="file-path-wrapper">
-          <input className="file-path validate" accept="image/*" onChange={onChange} type="text" />
+          <input
+            className="file-path validate"
+            accept="image/*"
+            onChange={handleInputFileChange}
+            type="text"
+          />
         </div>
       </div>
       {previewImage ? (
         <div className="image-preview">
-          <img src={previewImage} alt={previewImage} />
+          <img src={previewImage} alt={previewImage} style={{ maxWidth: '100%' }} />
         </div>
       ) : null}
     </div>
