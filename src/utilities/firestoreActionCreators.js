@@ -24,7 +24,7 @@ export const addDocumentToFirestore = ({
           body: getProjectToCreateData(state, 'content.body'),
           lead: getProjectToCreateData(state, 'content.lead')
         },
-        imageUrl: project.imageUrl,
+        images: getProjectToCreateData(state, 'images'),
         createdAt: new Date(),
         authorFirstName: firstName,
         authorLastName: lastName,
