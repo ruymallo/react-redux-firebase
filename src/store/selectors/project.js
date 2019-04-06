@@ -14,3 +14,6 @@ export const getFirestoreProjectById = (state, props) => {
 };
 
 export const getProjectToDisplay = get('project.projectToDisplay');
+
+export const getProjectToCreateData = (state, keyToGet) =>
+  get(`project.projectToCreate.${keyToGet}`)(state);
