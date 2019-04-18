@@ -15,61 +15,53 @@ import { LOGIN_ROUTE, HOME_ROUTE } from '../layout/constants';
 import FileUploaderModalTrigger from './helpers/FileUploader';
 import InputField from './helpers/InputField';
 
-class CreateProject extends React.Component {
-  handleSubmit = event => {
+const CreateProject = props => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    this.props.createProject();
-    this.props.history.push(HOME_ROUTE);
+    props.createProject();
+    props.history.push(HOME_ROUTE);
   };
 
-  handleProjectDataChange = ({ target }) => {
-    this.props.setProjectToCreateData(target.id, target.value);
+  const handleProjectDataChange = ({ target }) => {
+    props.setProjectToCreateData(target.id, target.value);
   };
+  const { isLoggedIn, title, content } = props;
 
-  render() {
-    const { isLoggedIn, title, content } = this.props;
+  const canCreateProject = isEmpty(content) || isEmpty(title);
 
-    const canCreateProject = isEmpty(content) || isEmpty(title);
-
-    if (isLoggedIn)
-      return (
-        <div className="container">
-          <div className="card white">
-            <form className="card-content" onSubmit={this.handleSubmit}>
-              <InputField
-                id="title"
-                label="Title"
-                onChange={this.handleProjectDataChange}
-                value={title}
-              />
-              <InputField
-                id="content.lead"
-                label="Lead"
-                onChange={this.handleProjectDataChange}
-                value={content.lead}
-              />
-              <InputField
-                id="content.body"
-                label="Content"
-                onChange={this.handleProjectDataChange}
-                value={content.body}
-              />
-              <FileUploaderModalTrigger modalType="images.intro" label="Intro" />
-              <FileUploaderModalTrigger modalType="images.full" label="Full" />
-              <div className="input-field">
-                <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">
-                  CreateProject
-                </button>
-              </div>
-            </form>
-          </div>
+  if (isLoggedIn)
+    return (
+      <div className="container">
+        <div className="card white">
+          <form className="card-content" onSubmit={handleSubmit}>
+            <InputField id="title" label="Title" onChange={handleProjectDataChange} value={title} />
+            <InputField
+              id="content.lead"
+              label="Lead"
+              onChange={handleProjectDataChange}
+              value={content.lead}
+            />
+            <InputField
+              id="content.body"
+              label="Content"
+              onChange={handleProjectDataChange}
+              value={content.body}
+            />
+            <FileUploaderModalTrigger modalType="images.intro" label="Intro" />
+            <FileUploaderModalTrigger modalType="images.full" label="Full" />
+            <div className="input-field">
+              <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">
+                CreateProject
+              </button>
+            </div>
+          </form>
         </div>
-      );
+      </div>
+    );
 
-    return <Redirect to={LOGIN_ROUTE} />;
-  }
-}
+  return <Redirect to={LOGIN_ROUTE} />;
+};
 
 const mapStateToProps = state => ({
   content: getProjectToCreateData(state, 'content.body'),
