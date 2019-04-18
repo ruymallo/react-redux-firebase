@@ -16,32 +16,15 @@ import FileUploaderModalTrigger from './helpers/FileUploader';
 import InputField from './helpers/InputField';
 
 class CreateProject extends React.Component {
-  state = {
-    image: null,
-    progress: 0,
-    imageUrl: ''
-  };
-
   handleSubmit = event => {
     event.preventDefault();
-    const { title, content, images } = this.state;
-    const project = {
-      title,
-      content,
-      images
-    };
 
-    this.props.createProject(project);
+    this.props.createProject();
     this.props.history.push(HOME_ROUTE);
   };
 
   handleProjectDataChange = ({ target }) => {
     this.props.setProjectToCreateData(target.id, target.value);
-  };
-
-  handlePreviewLoad = event => {
-    console.log('width', event.target.naturalWidth);
-    console.log('height', event.target.naturalHeight);
   };
 
   render() {
