@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-const FileInput = ({ label, id }) => {
+import { setModalProp } from '../../../store/actions/modal';
+
+const FileInput = ({ id, label, setModalProp }) => {
   const [previewImage, setPreviewImage] = useState(null);
 
   const handleInputFileChange = event => {
@@ -8,6 +11,7 @@ const FileInput = ({ label, id }) => {
       const image = event.target.files[0];
       const previewImage = URL.createObjectURL(image);
       setPreviewImage(previewImage);
+      setModalProp('image', image);
     }
   };
 
@@ -36,4 +40,11 @@ const FileInput = ({ label, id }) => {
   );
 };
 
-export default FileInput;
+const mapDispatchToProps = {
+  setModalProp
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(FileInput);
