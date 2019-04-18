@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, useState } from 'react';
 import { bool, func, node, string } from 'prop-types';
 
-function Modal({ children, closeModal, shouldModalOpen, title }) {
+function Modal({ children, closeModal, footer, shouldModalOpen, title }) {
   const [modalInstance, setModalInstance] = useState(null);
 
   const modalRef = createRef();
@@ -37,17 +37,22 @@ function Modal({ children, closeModal, shouldModalOpen, title }) {
         {children}
       </div>
       <div className="modal-footer">
-        <button onClick={closeModal} className="waves-effect waves-green btn-flat">
-          Agree
-        </button>
+        {footer ? footer : <CloseButton closeModal={closeModal} />}
       </div>
     </div>
   );
 }
 
+const CloseButton = ({ closeModal }) => (
+  <button onClick={closeModal} className="waves-effect waves-green btn-flat">
+    Close
+  </button>
+);
+
 Modal.propTypes = {
   children: node,
   closeModal: func,
+  footer: node,
   shouldModalOpen: bool,
   title: string
 };
