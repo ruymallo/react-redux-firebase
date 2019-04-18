@@ -3,7 +3,7 @@ import pipe from 'lodash/fp/pipe';
 
 const getModal = get('modal');
 
-const getModalProps = pipe(
+export const getModalProps = pipe(
   getModal,
   get('props')
 );
@@ -26,4 +26,24 @@ export const getModalFooter = pipe(
 export const isModalOpen = pipe(
   getModal,
   get('isOpen')
+);
+
+export const getModalImages = pipe(
+  getModalProps,
+  get('images')
+);
+
+export const getModalType = pipe(
+  getModalProps,
+  get('modalType')
+);
+
+export const getModalImage = pipe(
+  getModalProps,
+  get('image')
+);
+
+export const getModalImageProgress = pipe(
+  getModalProps,
+  get('imageProgress')
 );
