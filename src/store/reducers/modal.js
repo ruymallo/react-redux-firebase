@@ -1,4 +1,4 @@
-import { CLOSE_MODAL, OPEN_MODAL } from '../constants/actionTypes';
+import { CLOSE_MODAL, OPEN_MODAL, SET_MODAL_PROP } from '../constants/actionTypes';
 
 const modalInitialState = {
   isOpen: false,
@@ -14,6 +14,15 @@ export default function modal(state = modalInitialState, action = {}) {
       return {
         props: action.props,
         isOpen: true
+      };
+
+    case SET_MODAL_PROP:
+      return {
+        ...state,
+        props: {
+          ...state.props,
+          [action.key]: action.value
+        }
       };
 
     default:
