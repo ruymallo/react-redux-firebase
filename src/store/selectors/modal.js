@@ -18,6 +18,11 @@ export const getModalTitle = pipe(
   get('title')
 );
 
+export const getModalFooter = pipe(
+  getModalProps,
+  get('footer')
+);
+
 export const isModalOpen = pipe(
   getModal,
   get('isOpen')
