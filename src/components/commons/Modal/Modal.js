@@ -22,6 +22,7 @@ function Modal({ children, closeModal, footer, shouldModalOpen, title }) {
     }
 
     if (modalInstance && !shouldModalOpen) {
+      modalInstance.close();
       modalInstance.destroy();
       setModalInstance(null);
     }
