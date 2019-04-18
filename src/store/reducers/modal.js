@@ -8,10 +8,7 @@ const modalInitialState = {
 export default function modal(state = modalInitialState, action = {}) {
   switch (action.type) {
     case CLOSE_MODAL:
-      return {
-        ...state,
-        isOpen: false
-      };
+      return modalInitialState;
 
     case OPEN_MODAL:
       return {
