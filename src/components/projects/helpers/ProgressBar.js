@@ -1,8 +1,11 @@
 import React from 'react';
+import isNumber from 'lodash/isNumber';
 
 const ProgressBar = ({ progress }) => {
-  return progress ? (
-    <div className={progress ? 'progress' : 'progress null'}>
+  const isProgressNumber = isNumber(progress);
+
+  return isProgressNumber ? (
+    <div className={isProgressNumber ? 'progress' : 'progress null'}>
       <div className="determinate" style={{ width: `${progress}%` }} />
     </div>
   ) : null;
