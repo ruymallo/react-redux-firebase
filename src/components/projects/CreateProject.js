@@ -11,11 +11,9 @@ import {
 import { getProjectToCreateData } from '../../store/selectors/project';
 import { isLoggedIn } from '../../store/selectors/auth';
 import { LOGIN_ROUTE, HOME_ROUTE } from '../layout/constants';
-import { storage } from '../../config/firebaseConfig';
 
-import FileInput from './helpers/FileInput';
+import FileUploaderModalTrigger from './helpers/FileUploader';
 import InputField from './helpers/InputField';
-import ProgressBar from './helpers/ProgressBar';
 
 class CreateProject extends React.Component {
   state = {
@@ -41,46 +39,12 @@ class CreateProject extends React.Component {
     this.props.setProjectToCreateData(target.id, target.value);
   };
 
-  handleImageUpload = () => {
-    if (this.state.image) {
-      const { image } = this.state;
-
-      const uploadTask = storage.ref(`images/${image.name}`).put(image);
-      const progress = snapshot => {
-        const getSnapshotPercent = () => {
-          const transfered = snapshot.bytesTransferred;
-          const total = snapshot.totalBytes;
-          return Math.floor((transfered * 100) / total);
-        };
-
-        this.setState({
-          progress: getSnapshotPercent()
-        });
-      };
-
-      const error = err => {
-        console.log(err);
-      };
-
-      const complete = () => {
-        console.log('complete', uploadTask.snapshot);
-      };
-
-      uploadTask.on('state_changed', progress, error, complete);
-
-      uploadTask.snapshot.ref.getDownloadURL().then(url => {
-        this.setState({ imageUrl: url });
-      });
-    }
-  };
-
   handlePreviewLoad = event => {
     console.log('width', event.target.naturalWidth);
     console.log('height', event.target.naturalHeight);
   };
 
   render() {
-    const { progress } = this.state;
     const { isLoggedIn, title, content } = this.props;
 
     const canCreateProject = isEmpty(content) || isEmpty(title);
@@ -108,9 +72,8 @@ class CreateProject extends React.Component {
                 onChange={this.handleProjectDataChange}
                 value={content.body}
               />
-              <FileInput id="images.intro" label="Intro image" />
-              <FileInput id="images.full" label="Full image" />
-              <ProgressBar progress={progress} />
+              <FileUploaderModalTrigger modalType="images.intro" label="Intro" />
+              <FileUploaderModalTrigger modalType="images.full" label="Full" />
               <div className="input-field">
                 <button disabled={canCreateProject} className="btn pink lighten-1 z-depth-0">
                   CreateProject
