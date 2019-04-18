@@ -15,6 +15,11 @@ const FileInput = ({ id, label, setModalProp }) => {
     }
   };
 
+  const handlePreviewImageLoad = event => {
+    console.log('width', event.target.naturalWidth);
+    console.log('height', event.target.naturalHeight);
+  };
+
   return (
     <div className="fileUploader">
       <div className="file-field input-field">
@@ -33,7 +38,12 @@ const FileInput = ({ id, label, setModalProp }) => {
       </div>
       {previewImage ? (
         <div className="image-preview">
-          <img src={previewImage} alt={previewImage} style={{ maxWidth: '100%' }} />
+          <img
+            src={previewImage}
+            onLoad={handlePreviewImageLoad}
+            alt={previewImage}
+            style={{ maxWidth: '100%' }}
+          />
         </div>
       ) : null}
     </div>
