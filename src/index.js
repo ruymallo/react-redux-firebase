@@ -12,6 +12,7 @@ import firebaseConfig from './config/firebaseConfig';
 import rootReducer from './store/reducers';
 import './index.css';
 import App from './App';
+import Modal from './components/commons/Modal';
 import * as serviceWorker from './serviceWorker';
 
 const thunkWithFirebaseAndFirestore = thunk.withExtraArgument({
@@ -47,7 +48,7 @@ store.firebaseAuthIsReady.then(() => {
     <Provider store={store}>
       <App />
     </Provider>,
-    document.getElementById('root')
+    document.getElementById('app-root')
   );
 
   // If you want your app to work offline and load faster, you can change
@@ -55,3 +56,10 @@ store.firebaseAuthIsReady.then(() => {
   // Learn more about service workers: http://bit.ly/CRA-PWA
   serviceWorker.unregister();
 });
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Modal />
+  </Provider>,
+  document.getElementById('modal-root')
+);
